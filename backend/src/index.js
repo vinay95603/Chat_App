@@ -15,7 +15,8 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
-app.use(express.json());
+// Middleware
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 app.use(
@@ -25,6 +26,7 @@ app.use(
   })
 );
 
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
@@ -32,14 +34,14 @@ app.use("/api/messages", messageRoutes);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*", (req, res) => {
+  app.get("/{*splat}", (req, res) => {
     res.sendFile(
       path.join(__dirname, "../frontend/dist/index.html")
     );
   });
 }
 
-// Connect to MongoDB
+// Database
 connectDB();
 
 // Start server
