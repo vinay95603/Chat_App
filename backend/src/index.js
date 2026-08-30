@@ -32,10 +32,8 @@ app.use(
   })
 );
 
-// Test route
-app.get("/", (req, res) => {
-  res.send("Chat App Backend is running!");
-});
+
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
